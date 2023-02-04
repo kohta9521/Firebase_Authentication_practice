@@ -1,9 +1,23 @@
-import React from 'react'
+import { signInWithPopup } from 'firebase/auth';
+import React from 'react';
+import { auth, provider } from "./firebase";
+import { useAuthState } from "react-firebase-hooks/auth";
 
 function Home() {
+
+    const [ user ] = useAuthState(auth);
+
     return (
         <div>
-            <SignInButton />
+            {user ? (
+                <>
+                    <UserInfo />
+                    <SignOutButton />
+                </>
+            ) : (
+                <SignInButton />
+            )}
+            {/* <SignInButton /> */}
         </div>
     )
 }
@@ -14,11 +28,28 @@ export default Home
 function SignInButton() {
     const signInWithGoogle = () => {
         // firebaseを使用してGoogleでログインする
+        signInWithPopup(auth, provider);
     };
 
     return (
         <button onClick={signInWithGoogle}>
             <p>Googleでサインイン</p>
         </button>
+    )
+}
+//Googleボタンでサインアウト
+function SignOutButton() {
+    return (
+        <button onClick={() => auth.signOut()}>
+            <p>サインアウト</p>
+        </button>
+    )
+}
+
+function UserInfo() {
+    return (
+        <>
+            ユーザー情報
+        </>
     )
 }
