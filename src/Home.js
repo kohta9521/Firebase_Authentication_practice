@@ -48,8 +48,9 @@ function SignOutButton() {
 
 function UserInfo() {
     return (
-        <>
-            ユーザー情報
-        </>
+        <div className='userInfo'>
+            <img src={auth.currentUser.photoURL} alt="" />
+            <p>{auth.currentUser.displayName}</p>
+        </div>
     )
 }
